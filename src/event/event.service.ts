@@ -13,14 +13,8 @@ export interface EventPayload {
 export class EventService {
   constructor(@InjectModel('Event') private readonly eventModel: Model<Event>) {}
 
-  async getEvent(id: string): Promise<Event> {
-    let event;
-    try {
-      event = await this.eventModel.findOne({ _id: id });
-    } catch (error) {
-      throw new NotFoundException('Could not find event');
-    }
-    return event;
+  async getAllEvents(): Promise<Event[]> {
+    return this.eventModel.find({});
   }
 
   async createEvent(event: EventPayload): Promise<Event> {
