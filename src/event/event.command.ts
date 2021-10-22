@@ -12,7 +12,7 @@ export class EventCommand {
     const event = await this.eventService.createEvent({
       name: "New Event",
       location: "Lagos",
-      date: new Date(),
+      date: new Date().toString(),
       expectedWeather: "Clear"
     });
     console.log(event);

@@ -1,13 +1,20 @@
 import { Injectable, NotFoundException, NotImplementedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, UpdateWriteOpResult } from 'mongoose';
 import { Event } from './event.model';
 
 export interface EventPayload {
   name: string;
-  date: Date;
+  date: string;
   location: string;
   expectedWeather: string;
+}
+
+export interface UpdateEventPayload {
+  name?: string;
+  date?: string;
+  location?: string;
+  expectedWeather?: string;
 }
 @Injectable()
 export class EventService {
@@ -25,5 +32,21 @@ export class EventService {
       throw new NotImplementedException(error);
     }
     return result;
+  }
+
+  async updateEvent(eventId: string, event: UpdateEventPayload):  Promise<Event> {
+    try {
+      return await this.eventModel.findByIdAndUpdate(eventId, event, { new: true})
+    } catch (error) {
+      throw new NotImplementedException(error);
+    }
+  }
+
+  async deleteEvent(eventId: string): Promise<Event> {
+    try {
+      return await this.eventModel.findByIdAndDelete(eventId)
+    } catch (error) {
+      throw new NotImplementedException(error);
+    }
   }
 }

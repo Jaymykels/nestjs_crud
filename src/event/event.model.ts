@@ -23,8 +23,6 @@ export interface Event extends mongoose.Document {
 
 export class CreateEventDAO {
   @JoiSchema(Joi.string().required())
-  @JoiSchema([CREATE], Joi.string().required())
-  @JoiSchema([UPDATE], Joi.string().optional())
   @ApiProperty({
     description: "The name of the event e.g Michael's Wedding",
     default: ""
@@ -32,17 +30,13 @@ export class CreateEventDAO {
   name: string;
 
   @JoiSchema(Joi.date().required())
-  @JoiSchema([CREATE], Joi.date().required())
-  @JoiSchema([UPDATE], Joi.date().optional())
   @ApiProperty({
     description: "The date of the event",
     default: new Date()
   })
-  date: Date;
+  date: string;
   
   @JoiSchema(Joi.string().required())
-  @JoiSchema([CREATE], Joi.string().required())
-  @JoiSchema([UPDATE], Joi.string().optional())
   @ApiProperty({
     description: "The event a location e.g Pistis Center off Lekki Epe Expressway.",
     default: ""
@@ -50,8 +44,33 @@ export class CreateEventDAO {
   location: string;
 
   @JoiSchema(Joi.string().required())
-  @JoiSchema([CREATE], Joi.string().required())
-  @JoiSchema([UPDATE], Joi.string().optional())
+  @ApiProperty({
+    description: "The weather forcast for the selected date and location",
+    enum: ['Clear', 'Rainny', 'Sunny', 'Windy']
+  })
+  expectedWeather: string;
+}
+
+export class UpdateEventDAO {
+  @JoiSchema(Joi.string())
+  @ApiProperty({
+    description: "The name of the event e.g Michael's Wedding"
+  })
+  name: string;
+
+  @JoiSchema(Joi.date())
+  @ApiProperty({
+    description: "The date of the event"
+  })
+  date: string;
+  
+  @JoiSchema(Joi.string())
+  @ApiProperty({
+    description: "The event a location e.g Pistis Center off Lekki Epe Expressway."
+  })
+  location: string;
+
+  @JoiSchema(Joi.string())
   @ApiProperty({
     description: "The weather forcast for the selected date and location",
     enum: ['Clear', 'Rainny', 'Sunny', 'Windy']

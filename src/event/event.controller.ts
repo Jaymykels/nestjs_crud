@@ -1,6 +1,6 @@
-import { Controller, Post, Get, Body } from '@nestjs/common';
+import { Controller, Post, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { EventPayload, EventService } from './event.service';
-import { CreateEventDAO, Event } from './event.model';
+import { CreateEventDAO, Event, UpdateEventDAO } from './event.model';
 
 @Controller('event')
 export class EventController {
@@ -14,5 +14,15 @@ export class EventController {
   @Get()
   read(): Promise<Event[]> {
     return this.eventService.getAllEvents();
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() params: UpdateEventDAO): Promise<Event> {
+    return this.eventService.updateEvent(id, {...params})
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<Event> {
+    return this.eventService.deleteEvent(id)
   }
 }
